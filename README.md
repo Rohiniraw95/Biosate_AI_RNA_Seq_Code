@@ -1,4 +1,3 @@
-# Biosate_AI_RNA_Seq_Code
 # RNA-Seq Analysis Pipeline
 
 ## Overview
