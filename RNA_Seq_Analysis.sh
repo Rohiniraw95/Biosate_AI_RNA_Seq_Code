@@ -109,6 +109,35 @@ library(AnnotationDbi)
 library(enrichplot)
 library(ggtree)
 
+#Alignment Statistics
+# Sample data
+samples <- c("Heart_ZT0_1", "Heart_ZT0_2", "Heart_ZT12_1", "Heart_ZT12_2", 
+            "Liver_ZT0_1", "Liver_ZT0_2", "Liver_ZT12_1", "Liver_ZT12_2")
+
+# Assigned reads
+assigned_reads <- c(58938673, 48502407, 60904988, 23387384, 37458596, 56691703, 26701998, 19879985)
+
+# Unassigned multi-mapping reads
+unassigned_multimapping <- c(39446669, 31901118, 43474042, 14419741, 
+                     80114626, 105466664, 59774825, 37543445)
+
+# Calculate total reads
+total_reads <- assigned_reads + unassigned_multimapping
+
+# Calculate multimapping percentage
+multimapping_percentage <- (unassigned_multimapping / total_reads) * 100
+
+# Create a data frame for the results
+results <- data.frame(Sample = samples, Assigned_Reads = assigned_reads, Unassigned_Multimapping = unassigned_multimapping, Total_Reads = total_reads, Multimapping_Percentage = multimapping_percentage)
+
+# Print results
+print(results)
+
+# Optional: Plotting the results for better visualization
+
+ggplot(results, aes(x = Sample, y = Multimapping_Percentage)) +
+ geom_bar(stat = "identity", fill = "blue") + theme_minimal() + labs(title = "Multimapping Percentage per Sample", x = "Sample", y = "Multimapping Percentage (%)") +
+             theme(axis.text.x = element_text(angle = 45, hjust = 1))
 # Data import and preprocessing
 gene_counts <- read.csv("gene_counts_paired.csv", row.names = 1)
 gene_counts <- select(gene_counts, 6:13)
